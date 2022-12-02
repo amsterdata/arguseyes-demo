@@ -1,0 +1,11 @@
+series: development
+artifact_storage_uri: ${PROJECT_ROOT}/mlruns/
+
+pipeline:
+  path: ${PROJECT_ROOT}/pipelines/mlinspect-computervision-sneakers.py
+  template: classification
+  detect_issues:
+    - issue:
+        name: label_errors
+        params:
+          max_fraction: 0.03

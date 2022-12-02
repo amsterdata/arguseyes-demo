@@ -1,0 +1,2 @@
+arguseyes @ git+https://github.com/amsterdata/arguseyes@8a0b23c79dfd391c091e1a6419f084257083a50d
+jupyter

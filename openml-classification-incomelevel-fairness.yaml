@@ -1,0 +1,21 @@
+series: development
+artifact_storage_uri: ${PROJECT_ROOT}/mlruns/
+
+pipeline:
+  template: classification
+  path: ${PROJECT_ROOT}/pipelines/openml-classification-incomelevel.py
+  detect_issues:
+    - issue:
+        name: fairness
+        params:
+          sensitive_attribute: sex
+          privileged_class: Male
+          metric: equal_opportunity
+          max_difference: 0.01
+    - issue:
+        name: fairness
+        params:
+          sensitive_attribute: race
+          privileged_class: White
+          metric: statistical_parity
+          max_difference: 0.02
