@@ -1,4 +1,4 @@
-series: development
+series: sigmod-demo
 artifact_storage_uri: ${PROJECT_ROOT}/mlruns/
 
 pipeline:

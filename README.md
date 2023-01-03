@@ -12,7 +12,7 @@ We provide three example scenarios (Note that you have to locally install ArgusE
   * Source code of the ML pipeline [mlinspect-computervision-sneakers.py](pipelines/mlinspect-computervision-sneakers.py)
   * Screening configuration: [mlinspect-computervision-sneakers-labelerrors.yaml](mlinspect-computervision-sneakers-labelerrors.yaml)
   * [Github workflow run detecting the label errors](https://github.com/amsterdata/arguseyes-demo/actions/runs/3602119501/jobs/6068693355)
-  * Manual screening: `./eyes mlinspect-computervision-sneakers-labelerrors.yaml`
+  * Manual screening: `./eyes-local mlinspect-computervision-sneakers-labelerrors.yaml`
   * Notebook for retrospective debugging: [retrospective_labelerrors.ipynb](retrospective_labelerrors.ipynb)
 
 
@@ -21,7 +21,7 @@ We provide three example scenarios (Note that you have to locally install ArgusE
   * Source code of the ML pipeline [mlflow-regression-nyctaxifare.py](pipelines/mlflow-regression-nyctaxifare.py)
   * Screening configuration: [mlflow-regression-nyctaxifare-dataleakage.yaml](mlflow-regression-nyctaxifare-dataleakage.yaml)
   * [Github workflow run detecting the leakage](https://github.com/amsterdata/arguseyes-demo/actions/runs/3602119501/jobs/6068693150)
-  * Manual screening: `./eyes mlflow-regression-nyctaxifare-dataleakage.yaml`
+  * Manual screening: `./eyes-local mlflow-regression-nyctaxifare-dataleakage.yaml`
   * Notebook for retrospective debugging: [retrospective_dataleakage.ipynb](retrospective_dataleakage.ipynb)
 
 ### Fairness: detecting fairness violations in a credit scoring pipeline
@@ -29,5 +29,5 @@ We provide three example scenarios (Note that you have to locally install ArgusE
   * Source code of the ML pipeline [openml-classification-incomelevel.py](pipelines/openml-classification-incomelevel.py)
   * Screening configuration: [openml-classification-incomelevel-fairness.yaml](openml-classification-incomelevel-fairness.yaml)
   * [Github workflow run detecting the fairness violation](https://github.com/amsterdata/arguseyes-demo/actions/runs/3602119501/jobs/6068693482)
-  * Manual screening: `./eyes openml-classification-incomelevel-fairness.yaml`
+  * Manual screening: `./eyes-local openml-classification-incomelevel-fairness.yaml`
   * Notebook for retrospective debugging: [retrospective_fairnessviolation.ipynb](retrospective_fairnessviolation.ipynb)

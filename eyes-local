@@ -1,0 +1,7 @@
+#!/usr/bin/env python 
+import os
+from arguseyes.__main__ import main
+
+os.environ["PROJECT_ROOT"] = os.getcwd()
+
+main()
