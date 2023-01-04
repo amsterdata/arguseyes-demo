@@ -11,7 +11,7 @@ from sklearn.pipeline import Pipeline
 pd.options.mode.chained_assignment = None
 
 
-def decode_image(img_str):
+def decode(img_str):
     return np.array([int(val) for val in img_str.split(':')])
 
 
@@ -45,15 +45,12 @@ def create_cnn():
 
 data_location = '../datasets/sneakers'
 
-train_data = pd.read_csv(f'{data_location}/product_images_train_with_labelerrors.csv',
-                         converters={'image': decode_image})
+train_data = pd.read_csv(f'{data_location}/product_images_train_with_labelerrors.csv', converters={'image': decode})
 
 # FIX label errors: Rerun with a cleaned version of the data
-#train_data = pd.read_csv(f'{data_location}/product_images_train_clean.csv',
-#                         converters={'image': decode_image})
+# train_data = pd.read_csv(f'{data_location}/product_images_train_clean.csv', converters={'image': decode})
 
-
-test_data = pd.read_csv(f'{data_location}/product_images_test.csv', converters={'image': decode_image})
+test_data = pd.read_csv(f'{data_location}/product_images_test.csv', converters={'image': decode})
 
 product_categories = pd.read_csv(f'{data_location}/product_categories.csv')
 train_data_with_categories = train_data.merge(product_categories, on='category_id')
