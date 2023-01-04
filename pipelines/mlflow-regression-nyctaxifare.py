@@ -23,12 +23,17 @@ def load_file_as_dataframe(file_path: str, file_format: str) -> DataFrame:
         raise NotImplementedError
 
 
-def filter_dataset(dataset: DataFrame):
+def filter_trips(dataset: DataFrame):
     filtered_dataset = dataset.dropna()
     filtered_dataset = filtered_dataset[filtered_dataset["fare_amount"] > 0]
+    filtered_dataset = filtered_dataset[filtered_dataset["fare_amount"] < 1000]
+    return filtered_dataset
+
+
+def filter_distances(dataset: DataFrame):
+    filtered_dataset = dataset.dropna()
     filtered_dataset = filtered_dataset[filtered_dataset["trip_distance"] < 400]
     filtered_dataset = filtered_dataset[filtered_dataset["trip_distance"] > 0]
-    filtered_dataset = filtered_dataset[filtered_dataset["fare_amount"] < 1000]
     return filtered_dataset
 
 
@@ -52,7 +57,7 @@ def transformer_fn():
                 transformers=[
                     ("hour_encoder", OneHotEncoder(categories="auto", sparse=False), ["pickup_hour"],),
                     ("day_encoder", OneHotEncoder(categories="auto", sparse=False), ["pickup_dow"],),
-                    ("std_scaler", StandardScaler(), ["trip_distance", "trip_duration"],),]),),
+                    ("std_scaler", StandardScaler(), ["trip_distance", "trip_duration"])]))
         ]
     )
 
@@ -62,15 +67,21 @@ def estimator_fn(estimator_params: Dict[str, Any] = {}):
     return SGDRegressor(random_state=42, **estimator_params)
 
 
-data = load_file_as_dataframe('../datasets/nyc-taxi/sample.parquet', 'parquet')
-filtered_data = filter_dataset(data)
+trips = load_file_as_dataframe('../datasets/nyc-taxi/trips.parquet', 'parquet')
+distances = load_file_as_dataframe('../datasets/nyc-taxi/distances.csv', 'csv')
+
+filtered_trips = filter_trips(trips)
+filtered_distances = filter_distances(distances)
+
+data = filtered_trips.merge(filtered_distances, on=['pickup_zip', 'dropoff_zip'])
 
 temporal_split_date = pd.to_datetime('2016-02-15')
 
-train_data = filtered_data[filtered_data['tpep_dropoff_datetime'].dt.date <= temporal_split_date]
-test_data = filtered_data[filtered_data['tpep_dropoff_datetime'].dt.date >= temporal_split_date]
+train_data = data[data['tpep_dropoff_datetime'].dt.date <= temporal_split_date]
+test_data = data[data['tpep_dropoff_datetime'].dt.date >= temporal_split_date]
+
 # FIX for leakage: make sure that train/test are disjunct by changing the predicate
-# test_data = filtered_data[filtered_data['tpep_dropoff_datetime'].dt.date > temporal_split_date]
+# test_data = data[data['tpep_dropoff_datetime'].dt.date > temporal_split_date]
 
 model = Pipeline([
     ('featurization', transformer_fn()),
